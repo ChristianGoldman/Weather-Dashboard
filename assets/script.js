@@ -5,7 +5,7 @@ $("#searchBtn").on("click", function(event) {
     let searchedCity = $("#citySearch").val();
     let APIkey = "da78f2587f0f29e343d3740e867a79e3";
     let queryURL = "http://api.openweathermap.org/data/2.5/weather?q=" + searchedCity + "&appid=" + APIkey;
-
+    // api.openweathermap.org/data/2.5/forecast?q={city name}&appid={API key} 5 day search API
 
     $.ajax(
         {
