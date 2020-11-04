@@ -29,3 +29,10 @@ body {
 .forecast {
     background-color: rgb(179, 179, 240);
 }
+
+.day {
+  background-color: rgb(147, 147, 255);
+  margin-top: 3px;
+  margin-bottom: 3px;
+  margin-right: 3px;
+}

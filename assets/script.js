@@ -40,26 +40,7 @@ $("#searchBtn").on("click", function(event) {
                 })
                 .then(function(response){
                     let uvIdx = response.value;
-                    console.log(uvIdx);
                     $("#uvIndex").html(uvIdx);
                 });
         });
 });   
-
-function updateData(){
-    $("#location").html(searchedCity);
-
-    let kTemp = response.main.temp;
-    let fTemp = Math.floor((kTemp - 273.15) * 1.8 + 32);
-    $("#temp").html(fTemp);
-
-    let hDitty = response.main.humidity;
-    $("#humidity").html(hDitty);
-
-    let windSpeed = response.wind.speed;
-    $("#windSpeed").html(windSpeed);
-
-    let lat = response.coord.lat;
-    let lon = response.coord.lon;
-    let queryUV = "http://api.openweathermap.org/data/2.5/uvi?lat=" + lat + "&lon=" + lon + "&appid=" + APIkey;
-}
