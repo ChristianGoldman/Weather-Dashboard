@@ -1,27 +1,34 @@
+// checking to see wether or not anything been stored into local storage, if not creating a key named cities.
 if(localStorage.getItem('cities') === null){
     localStorage.setItem('cities', JSON.stringify([]));
 }
 
+// getting the cities array from local storage and looping through the array to add any values to the html that arent not currently displayed
 function displayList(){
+
     const cities = JSON.parse(localStorage.getItem('cities'));
     let html = "";
     for(let i = 0; i < cities.length; i++){
         html+= `<li class="list-group-item">${cities[i]}</li>`;
         // html = html+ `<li class="list-group-item active">${cities[0]}</li>`;
     }
-
+    // appending "searched Cities" to the html
     $("#searchedCities").html(html);
 }
 displayList();
 
+// upon clicking the li elements display corresponding weather data
 $("#searchedCities").on("click", "li", function(event){
+
     event.stopPropagation()
     console.log($(this).text());
     weatherLookUp($(this).text());
     
 })
 
+// getting the appropriate info from the API's to fill my html elements with
 function weatherLookUp(cityName){
+
     const APIkey = "da78f2587f0f29e343d3740e867a79e3";
     const queryURL = "http://api.openweathermap.org/data/2.5/weather?q=" + cityName + "&appid=" + APIkey;
     // below is the 5 day api
@@ -54,8 +61,6 @@ function weatherLookUp(cityName){
             let lon = response.coord.lon;
             let queryUV = "http://api.openweathermap.org/data/2.5/uvi?lat=" + lat + "&lon=" + lon + "&appid=" + APIkey;
             
-            // update 2nd api url within first ajax call.
-            // create a function for second and third ajax call 
             $.ajax(
                 {
                     url: queryUV,
@@ -82,24 +87,29 @@ function weatherLookUp(cityName){
         });
 }
 
+// upon clicking the search button taking the value of the input text 
 $("#searchBtn").on("click", function(event) {
+
     event.preventDefault();
     const searchedCity = $("#citySearch").val();
+    // filling the html elements with info returned from the API based on what was searched
     weatherLookUp(searchedCity);  
+    // grabbing the key from local storage
     const savedCities = JSON.parse(localStorage.getItem('cities'));
+    // checking to see if the value has been used before. If value been used before do nothing, if value is new 
     if(savedCities.indexOf(searchedCity) == -1){
+        // push new value to the cities array
         savedCities.push(searchedCity);
+        // update local storage
         localStorage.setItem('cities', JSON.stringify(savedCities));
+        // displaying the new value in an new LI element
         displayList();
     }
 });   
     
 function updateDay(forecast, dayNumber) {
-    // console.log(forecast + ',' + dayNumber);
 
     let dateData = moment(forecast.dt_txt).format('L');
-    // console.log(dateData + ',' + dayNumber);
-    // console.log(forecast.dt_txt);
     $("#day" + dayNumber).html(dateData);
 
     let kTemp = forecast.main.temp;
@@ -123,6 +133,7 @@ function getDayForecast(forecasts, nbrDaysAhead){
     return forecasts[nbrDaysAhead];
 }
 
-// need to display last searched city upon opening page
-// li elements are search history and only needs to display last searched city upon refresh
-// li elements should display current weather and a 5 day forecast 
+
+// function capitalizeFirstLetter(string) {
+//     return string.charAt(0).toUpperCase() + string.slice(1);
+//   }
